@@ -5,21 +5,14 @@ let s:prev_opfunc = ''
 
 fun duplicate#with(op, oneline=0)
     let s:duplicate_count = v:count1
-    " Clear opfunc first
+
+    " Clear opfunc
     set opfunc=
-
-    if a:op != ''
-        call feedkeys(a:op, 'x')
-    endif
-
-    let s:prev_opfunc = &opfunc
     let s:prev_op = a:op
-
-    set opfunc=duplicate#opfunc
 
     " <Esc> is needed so that v:count doesn't get passed to the motion or
     " text object
-    return "\<Esc>g@".(a:oneline ? 'Vl' : '')
+    return a:op."\<Esc>\<Cmd>call ".string(function("s:SetOpfunc"))."()\<CR>g@".(a:oneline ? 'Vl' : '')
 endfun
 
 
@@ -29,7 +22,13 @@ fun duplicate#mappings()
 endfun
 
 
-fun duplicate#opfunc(type)
+fun s:SetOpfunc()
+    let s:prev_opfunc = &opfunc
+    set opfunc=<SID>Opfunc
+endfun
+
+
+fun s:Opfunc(type)
     " TODO: Figure out best way of dealing with block selection
     if a:type == 'block'
         echoerr "block selection not supported"
