@@ -35,21 +35,25 @@ fun s:Opfunc(type)
     endif
 
     let motype = a:type
+    let inclusive = ''
 
-    if motype == 'char' && line("'[") != line("']") && get(g:, 'duplicate_smart_line', 1)
-        let motype = 'line'
+    if motype == 'char'
+        if line("'[") != line("']") && get(g:, 'duplicate_smart_line', 1)
+            let motype = 'line'
+        else
+            let inclusive = 'v'
+        endif
     endif
 
     let start = motype == 'line' ? "'[" : "`["
     let end = motype == 'line' ? "']" : "`]"
 
-    echom start."y".end
-    exec "normal!" start."y".end
+    exec "normal!" start."y".inclusive.end
 
     if s:prev_opfunc != ''
         call call(s:prev_opfunc, [motype])
     elseif s:prev_op != ''
-        exec "normal" start.a:prev_op.end
+        exec "normal" start.s:prev_op.end
     endif
 
     exec "normal!" end.s:duplicate_count."p"
