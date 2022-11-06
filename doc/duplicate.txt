@@ -20,12 +20,11 @@ create; defaults to 1 if omitted.
 							*gd*
 gd{motion}		Copy the text described by {motion} and paste it
 			[count] times after the end of the {motion}. See
-			|'g:duplicate_smart_motion'| for more about
-			|characterwise| motions.
+			|'g:duplicate_smart_motion'| for more information.
 
 							*gdd*
 gdd			Copy the current line and paste it [count] times
-			below; just an alias for `yy[count]p` added for
+			below; essentially an alias of `yy[count]p` added for
 			consistency.
 
 ==============================================================================
@@ -43,10 +42,10 @@ multiple lines. When set to `1`, a multi-line characterwise motion will be
 treated as a |linewise| motion. Single-line characterwise motions will always
 be characterwise regardless of this option.
 
-For example, the action `gda{` inside braces that span multiple lines will
-include additional text around the braces when this option is set. You can
-still have this behaviour when this option is off by using the |o_V| forced
-motion, e.g. `gdVa{`. The default is `1`.
+For example, typing `gda{` inside braces that span multiple lines will include
+additional text around the braces when this option is set. You can still have
+this behaviour when this option is off by using the |o_V| forced motion, e.g.
+`gdVa{`. The default is `1`.
 
 `  let g:duplicate_smart_line = 1`
 
