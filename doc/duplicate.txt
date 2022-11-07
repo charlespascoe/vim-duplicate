@@ -20,12 +20,13 @@ create; defaults to 1 if omitted.
 							*gd*
 gd{motion}		Copy the text described by {motion} and paste it
 			[count] times after the end of the {motion}. See
-			|'g:duplicate_smart_motion'| for more information.
+			|'g:duplicate_smart_motion'| for more on what text
+			gets copied.
 
 							*gdd*
 gdd			Copy the current line and paste it [count] times
-			below; essentially an alias of `yy[count]p` added for
-			consistency.
+			below; behaves like `yy[count]p` but preserves the
+			relative cursor position within the line.
 
 ==============================================================================
 OTHER OPERATORS				       *vim-duplicate-other-operators*
