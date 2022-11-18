@@ -26,7 +26,7 @@ endfun
 
 fun s:SetOpfunc()
     let s:prev_opfunc = &opfunc
-    set opfunc=<SID>Opfunc
+    let &opfunc = expand('<SID>').'Opfunc'
 endfun
 
 
@@ -34,6 +34,7 @@ fun s:Opfunc(type)
     " TODO: Figure out best way of dealing with block selection
     if a:type == 'block'
         echoerr "block selection not supported"
+        return
     endif
 
     let motype = a:type
