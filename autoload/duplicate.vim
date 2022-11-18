@@ -1,6 +1,8 @@
 let s:duplicate_count = 1
 let s:prev_opfunc = ''
-let s:curpos = []
+
+" Keep track of the current cursor position in the active buffer
+au CursorMoved,InsertLeave,BufEnter * let s:curpos = getpos('.')
 
 " TODO: Handle registers for nested commands?
 
@@ -12,9 +14,7 @@ fun duplicate#with(op, oneline=0)
     let s:prev_op = a:op
     let s:curpos = getpos('.')
 
-    " <Esc> is needed so that v:count doesn't get passed to the motion or
-    " text object
-    return a:op."\<Esc>\<Cmd>call ".string(function("s:SetOpfunc"))."()\<CR>g@".(a:oneline ? 'Vl' : '')
+    return a:op."\<Esc>\<Cmd>call ".string(function("s:SetOpfunc"))."()\<CR>g@".(a:oneline ? 'V0' : '')
 endfun
 
 
@@ -70,7 +70,6 @@ fun s:Opfunc(type)
     exec "normal!" end.s:duplicate_count."p"
 
     call s:SetRelCurpos("'[", curoffset)
-    let s:curpos = []
 endfun
 
 
