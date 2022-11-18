@@ -6,21 +6,27 @@ au CursorMoved,InsertLeave,BufEnter * let s:curpos = getpos('.')
 
 " TODO: Handle registers for nested commands?
 
-fun duplicate#with(op, oneline=0)
+let s:default_opts = #{
+    \ oneline: 0,
+\}
+
+fun duplicate#with(op, opts={})
     let s:duplicate_count = v:count1
+
+    let opts = extend(copy(s:default_opts), a:opts)
 
     " Clear opfunc
     set opfunc=
     let s:prev_op = a:op
     let s:curpos = getpos('.')
 
-    return a:op."\<Esc>\<Cmd>call ".string(function("s:SetOpfunc"))."()\<CR>g@".(a:oneline ? 'V0' : '')
+    return a:op."\<Esc>\<Cmd>call ".string(function("s:SetOpfunc"))."()\<CR>g@".(opts.oneline ? 'V0' : '')
 endfun
 
 
 fun duplicate#mappings()
     nmap <expr> gd  duplicate#with('')
-    nmap <expr> gdd duplicate#with('', 1)
+    nmap <expr> gdd duplicate#with('', #{oneline: 1})
 endfun
 
 
